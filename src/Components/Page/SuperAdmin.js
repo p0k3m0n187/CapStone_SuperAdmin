@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Avatar, Box, Button, Chip, Tooltip, Typography } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
-import { collection, getDocs, doc, updateDoc } from 'firebase/firestore'; // Import updateDoc
+import { collection, getDocs } from 'firebase/firestore'; // Import updateDoc
 import { db } from '../../config/firebase';
 import ApprovalModal from '../Other/ApprovalModal';
 
