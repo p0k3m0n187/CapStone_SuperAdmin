@@ -23,8 +23,10 @@ const ApprovalModal = ({ isOpen, onClose, restaurant, updateRestaurantApproval }
     const handleApprove = async () => {
         if (restaurant) {
             try {
-                // Update Firestore document
+                // Reference to the Firestore document
                 const restaurantDocRef = doc(db, 'admin_users', restaurant.restaurantId);
+
+                // Update the Firestore document
                 await updateDoc(restaurantDocRef, {
                     approved: 'Yes'
                 });
@@ -62,7 +64,7 @@ const ApprovalModal = ({ isOpen, onClose, restaurant, updateRestaurantApproval }
                                 {restaurant && restaurant.restaurantLogo && (
                                     <img
                                         src={restaurant.restaurantLogo}
-                                        alt={restaurant.restaurantLogo}
+                                        alt="Restaurant Logo"
                                         style={{
                                             width: '100%',
                                             height: '100%',
@@ -75,82 +77,82 @@ const ApprovalModal = ({ isOpen, onClose, restaurant, updateRestaurantApproval }
                     </Box>
                     <Box sx={{ width: '60%', height: '50%' }}>
                         <Box sx={{ overflowY: 'auto', height: '470px', p: 1, mb: 2 }}>
-                            <Box sx={{ mb: 5 }}>
-                                <TextField
-                                    fullWidth={true}
-                                    variant='standard'
-                                    label="Restaurant Name"
-                                    name='restaurant_name'
-                                    value={restaurant ? restaurant.restaurantName : ''}
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                />
-                            </Box>
-                            <Box sx={{ mb: 5 }}>
-                                <TextField
-                                    fullWidth={true}
-                                    variant='standard'
-                                    label="Restaurant Email"
-                                    name='restaurant_email'
-                                    value={restaurant ? restaurant.restaurantEmail : ''}
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                />
-                            </Box>
-                            <Box sx={{ mb: 5 }}>
-                                <TextField
-                                    fullWidth={true}
-                                    variant='standard'
-                                    label="Restaurant Permit Number"
-                                    name='restaurant_permit'
-                                    value={restaurant ? restaurant.restaurantPermit : ''}
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                />
-                            </Box>
-                            <Box sx={{ mb: 5 }}>
-                                <TextField
-                                    fullWidth={true}
-                                    variant='standard'
-                                    label="Restaurant Contact Number"
-                                    name='restaurant_number'
-                                    value={restaurant ? restaurant.contactNum : ''}
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                />
-                            </Box>
-                            <Box sx={{ mb: 5 }}>
-                                <TextField
-                                    fullWidth={true}
-                                    variant='standard'
-                                    label="Approve"
-                                    name='restaurant_approve'
-                                    value={restaurant ? restaurant.approved : ''}
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                />
-                            </Box>
-                            <Box sx={{ mb: 5 }}>
-                                <TextField
-                                    fullWidth={true}
-                                    variant='standard'
-                                    label="Restaurant Address"
-                                    name='restaurant_address'
-                                    value={
-                                        restaurant ?
-                                            `${restaurant.restaurantStreetAddress}, ${restaurant.restaurantBarangay}, ${restaurant.restaurantCity}, ${restaurant.province}, ${restaurant.country}` :
-                                            ''
-                                    }
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                />
-                            </Box>
+                            {restaurant && (
+                                <>
+                                    <Box sx={{ mb: 5 }}>
+                                        <TextField
+                                            fullWidth
+                                            variant="standard"
+                                            label="Restaurant Name"
+                                            name="restaurant_name"
+                                            value={restaurant.restaurantName}
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                        />
+                                    </Box>
+                                    <Box sx={{ mb: 5 }}>
+                                        <TextField
+                                            fullWidth
+                                            variant="standard"
+                                            label="Restaurant Email"
+                                            name="restaurant_email"
+                                            value={restaurant.restaurantEmail}
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                        />
+                                    </Box>
+                                    <Box sx={{ mb: 5 }}>
+                                        <TextField
+                                            fullWidth
+                                            variant="standard"
+                                            label="Restaurant Permit Number"
+                                            name="restaurant_permit"
+                                            value={restaurant.restaurantPermit}
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                        />
+                                    </Box>
+                                    <Box sx={{ mb: 5 }}>
+                                        <TextField
+                                            fullWidth
+                                            variant="standard"
+                                            label="Restaurant Contact Number"
+                                            name="restaurant_number"
+                                            value={restaurant.contactNum}
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                        />
+                                    </Box>
+                                    <Box sx={{ mb: 5 }}>
+                                        <TextField
+                                            fullWidth
+                                            variant="standard"
+                                            label="Approve"
+                                            name="restaurant_approve"
+                                            value={restaurant.approved}
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                        />
+                                    </Box>
+                                    <Box sx={{ mb: 5 }}>
+                                        <TextField
+                                            fullWidth
+                                            variant="standard"
+                                            label="Restaurant Address"
+                                            name="restaurant_address"
+                                            value={`${restaurant.restaurantStreetAddress}, ${restaurant.restaurantBarangay}, ${restaurant.restaurantCity}, ${restaurant.province}, ${restaurant.country}`}
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                        />
+                                    </Box>
+                                </>
+                            )}
                         </Box>
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                             <Button
@@ -158,23 +160,23 @@ const ApprovalModal = ({ isOpen, onClose, restaurant, updateRestaurantApproval }
                                 sx={{
                                     mr: 2,
                                     width: 100,
-                                    border: `1px solid #03A140`,
+                                    border: '1px solid #03A140',
                                     '&:hover': {
                                         bgcolor: 'white',
                                     },
                                 }}
-                                onClick={handleApprove} // Call handleApprove when the "Approve" button is clicked
+                                onClick={handleApprove}
                             >
                                 Approve
                             </Button>
                             <Button
                                 sx={{
                                     width: 100,
-                                    border: `1px solid red`,
+                                    border: '1px solid red',
                                     '&:hover': {
                                         color: 'red',
                                         bgcolor: 'white',
-                                        border: `1px solid red`,
+                                        border: '1px solid red',
                                     },
                                 }}
                                 variant="contained"
@@ -188,6 +190,6 @@ const ApprovalModal = ({ isOpen, onClose, restaurant, updateRestaurantApproval }
             </Box>
         </Modal>
     );
-}
+};
 
 export default ApprovalModal;

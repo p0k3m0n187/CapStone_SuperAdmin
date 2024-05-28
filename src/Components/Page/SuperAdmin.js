@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 import { Avatar, Box, Button, Chip, Tooltip, Typography } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import { auth } from '../../config/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import ApprovalModal from '../Other/ApprovalModal';
 import Navbar2 from '../Other/Navbar2';
@@ -115,6 +115,27 @@ const SuperAdmin = () => {
         fetchRestaurants(); // Fetch the updated data when the modal closes
     };
 
+    const updateRestaurantApproval = async (updatedRestaurant) => {
+        try {
+            // Update the restaurant approval status in Firestore
+            const restaurantDocRef = doc(db, 'admin_users', updatedRestaurant.restaurantId);
+            await updateDoc(restaurantDocRef, {
+                approved: updatedRestaurant.approved
+            });
+            // Update the local state with the updated restaurant
+            const updatedRestaurants = restaurants.map(restaurant => {
+                if (restaurant.restaurantId === updatedRestaurant.restaurantId) {
+                    return updatedRestaurant;
+                } else {
+                    return restaurant;
+                }
+            });
+            setRestaurants(updatedRestaurants);
+        } catch (error) {
+            console.error("Error updating restaurant approval status: ", error);
+        }
+    };
+
     const handleLogout = () => {
         auth.signOut().then(() => {
             // Logout successful
@@ -150,6 +171,7 @@ const SuperAdmin = () => {
                         isOpen={modalOpen}
                         onClose={handleModalClose}
                         restaurant={selectedRestaurant}
+                        updateRestaurantApproval={updateRestaurantApproval} // Pass the function here
                     />
                     <BasicTable rows={restaurants} handleModalOpen={handleModalOpen} />
                     <Box sx={{
